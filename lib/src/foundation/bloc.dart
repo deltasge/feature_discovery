@@ -104,7 +104,7 @@ class Bloc {
     assert(steps.isNotEmpty,
         'You need to pass at least one step to [FeatureDiscovery.discoverFeatures].');
 
-    _steps = steps as List<String?>?;
+    _steps = steps.toList();
     _stepsToIgnore = await _alreadyCompletedSteps;
     _steps = _steps!.where((s) => !_stepsToIgnore!.contains(s)).toList();
     _activeStepIndex = -1;
