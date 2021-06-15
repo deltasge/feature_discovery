@@ -133,11 +133,12 @@ class Bloc {
   }
 
   void dismiss() {
+    completeStep();
     // This will ignore the [onDismiss] function of all overlays.
-    _eventsIn.add(EventType.dismiss);
+    /* _eventsIn.add(EventType.dismiss);
     _steps = [];
     _activeStepIndex = null;
-    _activeOverlays = 0;
+    _activeOverlays = 0;*/
   }
 
   /// Will mark [featureId] as completed in the Shared Preferences.
