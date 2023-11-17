@@ -1,6 +1,5 @@
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'widgets.dart';
@@ -24,7 +23,9 @@ void main() {
       expect(finder, findsNWidgets(steps.length));
       final context = tester.firstState(finder).context;
       // Should be no overlays before calling discoverFeatures
-      texts.forEach((t) => expect(find.text(t), findsNothing));
+      for (var t in texts) {
+        expect(find.text(t), findsNothing);
+      }
       FeatureDiscovery.discoverFeatures(context, steps);
       await tester.pumpAndSettle();
       // First overlay should appear
@@ -44,7 +45,9 @@ void main() {
       FeatureDiscovery.dismissAll(context);
       await tester.pumpAndSettle();
       // No overlay should remain
-      texts.forEach((t) => expect(find.text(t), findsNothing));
+      for (var t in texts) {
+        expect(find.text(t), findsNothing);
+      }
     });
   });
 
@@ -71,7 +74,9 @@ void main() {
       await FeatureDiscovery.completeCurrentStep(context);
       await tester.pumpAndSettle();
       // No overlay should remain on screen
-      texts.forEach((t) => expect(find.text(t), findsNothing));
+      for (var t in texts) {
+        expect(find.text(t), findsNothing);
+      }
     });
   });
 
@@ -101,7 +106,9 @@ void main() {
         final finder = find.byType(TestIcon);
         expect(finder, findsNWidgets(featureIds.length));
         final context = tester.firstState(finder).context;
-        texts.forEach((t) => expect(find.text(t), findsNothing));
+        for (var t in texts) {
+          expect(find.text(t), findsNothing);
+        }
 
         FeatureDiscovery.discoverFeatures(context, steps);
         await tester.pumpAndSettle();
@@ -202,8 +209,7 @@ void main() {
         // The Container that makes the content of the feature overlay of the test widget has a static
         // height of 9e3, which ensures that the content definitely covers the 4e3 surface size height
         // if OverflowMode.clipContent is not enabled.
-        await (TestWidgetsFlutterBinding.ensureInitialized()
-                as TestWidgetsFlutterBinding)
+        await (TestWidgetsFlutterBinding.ensureInitialized())
             .setSurfaceSize(const Size(3e2, 4e3));
 
         await tester.pumpWidget(

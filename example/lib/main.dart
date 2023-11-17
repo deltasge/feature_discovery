@@ -15,10 +15,12 @@ void main() {
   // the animations more slowly.
   timeDilation = 1.0;
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) => MaterialApp(
         title: 'Feature Discovery',
@@ -39,16 +41,18 @@ class MyHomePage extends StatefulWidget {
   final String? title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    final action = () async {
+    action() async {
+      // ignore: avoid_print
       print('IconButton of $feature7 tapped.');
       return true;
-    };
+    }
+
     const icon1 = Icon(Icons.drive_eta);
     const icon2 = Icon(Icons.menu);
     const icon3 = Icon(Icons.search);
@@ -76,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     'Get car, walking, cycling, or public transit directions to this place'),
                 onComplete: action,
                 onOpen: () async {
+                  // ignore: avoid_print
                   print('The $feature7 overlay is about to be displayed.');
                   return true;
                 },
@@ -111,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text('Toggle enablePulsingAnimation',
                       style: Theme.of(context)
                           .textTheme
-                          .button!
+                          .labelLarge!
                           .copyWith(color: Colors.white)),
                 ),
                 const Text(
@@ -126,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text('Toggle overflowMode',
                       style: Theme.of(context)
                           .textTheme
-                          .button!
+                          .labelLarge!
                           .copyWith(color: Colors.white)),
                 ),
                 for (int n = 42; n > 0; n--)
@@ -158,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     'Understood',
                     style: Theme.of(context)
                         .textTheme
-                        .button!
+                        .labelLarge!
                         .copyWith(color: Colors.white),
                   ),
                 ),
@@ -168,7 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     'Dismiss',
                     style: Theme.of(context)
                         .textTheme
-                        .button!
+                        .labelLarge!
                         .copyWith(color: Colors.white),
                   ),
                 ),
@@ -201,7 +206,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Add another item',
                   style: Theme.of(context)
                       .textTheme
-                      .button!
+                      .labelLarge!
                       .copyWith(color: Colors.white)),
             ),
             for (int n = feature3ItemCount; n > 0; n--)
@@ -222,7 +227,7 @@ class Content extends StatefulWidget {
   const Content({Key? key}) : super(key: key);
 
   @override
-  _ContentState createState() => _ContentState();
+  State<Content> createState() => _ContentState();
 }
 
 class _ContentState extends State<Content> {
@@ -234,7 +239,7 @@ class _ContentState extends State<Content> {
     ensureKey = GlobalKey<EnsureVisibleState>();
     ensureKey2 = GlobalKey<EnsureVisibleState>();
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       FeatureDiscovery.discoverFeatures(
         context,
         const <String>{
@@ -265,20 +270,19 @@ class _ContentState extends State<Content> {
         SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Container(
+              const SizedBox(
                 height: 200,
                 width: double.infinity,
-                child: const Text(
-                    'Imagine there would be a beautiful picture here.'),
+                child: Text('Imagine there would be a beautiful picture here.'),
               ),
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(16.0),
                 color: Colors.blue,
-                child: Column(
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(bottom: 8.0),
                       child: Text(
                         'DISH REPUBLIC',
@@ -288,7 +292,7 @@ class _ContentState extends State<Content> {
                         ),
                       ),
                     ),
-                    const Text(
+                    Text(
                       'Eat',
                       style: TextStyle(
                         color: Colors.white,
@@ -310,11 +314,12 @@ class _ContentState extends State<Content> {
                   tapTarget: const Icon(Icons.drive_eta),
                   backgroundColor: Colors.green,
                   onComplete: () async {
+                    // ignore: avoid_print
                     print('Tapped tap target of $feature5.');
                     return true;
                   },
                   onOpen: () async {
-                    WidgetsBinding.instance!.addPostFrameCallback((_) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
                       ensureKey!.currentState!.ensureVisible(
                         preciseAlignment: 0.5,
                         duration: const Duration(milliseconds: 400),
@@ -360,11 +365,12 @@ class _ContentState extends State<Content> {
                   tapTarget: const Icon(Icons.drive_eta),
                   backgroundColor: Colors.green,
                   onComplete: () async {
+                    // ignore: avoid_print
                     print('Tapped tap target of $feature6.');
                     return true;
                   },
                   onOpen: () async {
-                    WidgetsBinding.instance!.addPostFrameCallback((_) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
                       ensureKey2!.currentState!.ensureVisible(
                           duration: const Duration(milliseconds: 600));
                     });
@@ -380,7 +386,7 @@ class _ContentState extends State<Content> {
                       child: Text('Add item',
                           style: Theme.of(context)
                               .textTheme
-                              .button!
+                              .labelLarge!
                               .copyWith(color: Colors.white)),
                     ),
                     for (int n = feature6ItemCount; n > 0; n--)
@@ -412,6 +418,7 @@ class _ContentState extends State<Content> {
               tapTarget: const Icon(Icons.drive_eta),
               backgroundColor: Colors.green,
               onOpen: () async {
+                // ignore: avoid_print
                 print('Tapped tap target of $feature4.');
                 return true;
               },
@@ -422,6 +429,7 @@ class _ContentState extends State<Content> {
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.blue,
                 onPressed: () {
+                  // ignore: avoid_print
                   print('Floating action button tapped.');
                 },
                 child: const Icon(Icons.drive_eta),

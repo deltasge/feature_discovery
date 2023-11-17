@@ -40,7 +40,8 @@ class SharedPreferencesProvider implements PersistenceProvider {
   @override
   Future<bool> hasCompletedStep(String featureId) async {
     final prefs = await SharedPreferences.getInstance();
-    final hasCompleted = await prefs.getBool(_normalizeFeatureId(featureId));
+    await null;
+    final hasCompleted = prefs.getBool(_normalizeFeatureId(featureId));
     return hasCompleted == true;
   }
 

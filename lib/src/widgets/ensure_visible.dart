@@ -5,10 +5,10 @@ class EnsureVisible extends StatefulWidget {
   /// The child widget that we are wrapping
   final Widget child;
 
-  const EnsureVisible({Key? key, required this.child}) : super(key: key);
+  const EnsureVisible({super.key, required this.child});
 
   @override
-  EnsureVisibleState createState() => EnsureVisibleState();
+  State<EnsureVisible> createState() => EnsureVisibleState();
 
   static void ensureVisible(BuildContext context) {
     context.findAncestorStateOfType<EnsureVisibleState>()!.ensureVisible();
@@ -41,9 +41,9 @@ class EnsureVisibleState extends State<EnsureVisible> {
         'The alignment needs to be null or between 0 and 1.');
 
     final renderObject = context.findRenderObject();
-    final viewport = RenderAbstractViewport.of(renderObject)!;
+    final viewport = RenderAbstractViewport.of(renderObject);
 
-    final scrollableState = Scrollable.of(context)!;
+    final scrollableState = Scrollable.of(context);
 
     final position = scrollableState.position;
     double alignment;
@@ -52,8 +52,9 @@ class EnsureVisibleState extends State<EnsureVisible> {
       alignment = preciseAlignment;
       // Only if the precise alignment exactly matches the current position no scrolling is necessary.
       if (position.pixels ==
-          viewport.getOffsetToReveal(renderObject!, preciseAlignment).offset)
+          viewport.getOffsetToReveal(renderObject!, preciseAlignment).offset) {
         return;
+      }
     } else if (position.pixels >
         viewport.getOffsetToReveal(renderObject!, 0).offset) {
       // Move down to the top of the viewport

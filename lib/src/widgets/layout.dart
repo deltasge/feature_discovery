@@ -4,7 +4,11 @@ class CenterAbout extends StatelessWidget {
   final Offset? position;
   final Widget? child;
 
-  const CenterAbout({Key? key, this.position, this.child}) : super(key: key);
+  const CenterAbout({
+    super.key,
+    this.position,
+    this.child,
+  });
 
   @override
   Widget build(BuildContext context) => Positioned(
@@ -22,9 +26,12 @@ class AnchoredOverlay extends StatelessWidget {
   final Widget Function(BuildContext, Offset anchor)? overlayBuilder;
   final Widget? child;
 
-  const AnchoredOverlay(
-      {Key? key, this.showOverlay, this.overlayBuilder, this.child})
-      : super(key: key);
+  const AnchoredOverlay({
+    super.key,
+    this.showOverlay,
+    this.overlayBuilder,
+    this.child,
+  });
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -48,12 +55,15 @@ class OverlayBuilder extends StatefulWidget {
   final Function(BuildContext context)? overlayBuilder;
   final Widget? child;
 
-  const OverlayBuilder(
-      {Key? key, this.showOverlay = false, this.overlayBuilder, this.child})
-      : super(key: key);
+  const OverlayBuilder({
+    super.key,
+    this.showOverlay = false,
+    this.overlayBuilder,
+    this.child,
+  });
 
   @override
-  _OverlayBuilderState createState() => _OverlayBuilderState();
+  State<OverlayBuilder> createState() => _OverlayBuilderState();
 }
 
 class _OverlayBuilderState extends State<OverlayBuilder> {
@@ -89,8 +99,8 @@ class _OverlayBuilderState extends State<OverlayBuilder> {
     overlayEntry = OverlayEntry(
       builder: widget.overlayBuilder as Widget Function(BuildContext),
     );
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      Overlay.of(context)!.insert(overlayEntry!);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Overlay.of(context).insert(overlayEntry!);
     });
   }
 
@@ -102,14 +112,16 @@ class _OverlayBuilderState extends State<OverlayBuilder> {
   void syncWidgetAndOverlay() {
     if (isShowingOverlay() && !widget.showOverlay!) {
       hideOverlay();
-    } else if (!isShowingOverlay() && widget.showOverlay!) showOverlay();
+    } else if (!isShowingOverlay() && widget.showOverlay!) {
+      showOverlay();
+    }
   }
 
   void buildOverlay() async => overlayEntry?.markNeedsBuild();
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       buildOverlay();
     });
     return widget.child!;

@@ -45,7 +45,7 @@ class DescribedFeatureOverlay extends StatefulWidget {
   /// It is intended for this to contain a [Text] widget, however, you can pass
   /// any [Widget].
   /// The overlay uses a [DefaultTextStyle] for the title, which is a combination
-  /// of [TextTheme.headline6] from [Theme] and the [textColor].
+  /// of [TextTheme.titleLarge] from [Theme] and the [textColor].
   final Widget? title;
 
   /// This is the second content widget, i.e. it is displayed below [description].
@@ -53,7 +53,7 @@ class DescribedFeatureOverlay extends StatefulWidget {
   /// It is intended for this to contain a [Text] widget, however, you can pass
   /// any [Widget].
   /// The overlay uses a [DefaultTextStyle] for the description, which is a combination
-  /// of [TextTheme.bodyText2] from [Theme] and the [textColor].
+  /// of [TextTheme.bodyMedium] from [Theme] and the [textColor].
   final Widget? description;
 
   /// This is usually an [Icon].
@@ -138,7 +138,7 @@ class DescribedFeatureOverlay extends StatefulWidget {
   final Future<bool> Function()? onBackgroundTap;
 
   const DescribedFeatureOverlay({
-    Key? key,
+    super.key,
     required this.featureId,
     required this.tapTarget,
     this.backgroundColor,
@@ -162,15 +162,14 @@ class DescribedFeatureOverlay extends StatefulWidget {
     this.barrierDismissible = true,
     this.backgroundDismissible = false,
     this.onBackgroundTap,
-  })  : assert(
+  }) : assert(
           barrierDismissible == true || onDismiss == null,
           'Cannot provide both a barrierDismissible and onDismiss function\n'
           'The onDismiss function will never get executed when barrierDismissible is set to false.',
-        ),
-        super(key: key);
+        );
 
   @override
-  _DescribedFeatureOverlayState createState() =>
+  State<DescribedFeatureOverlay> createState() =>
       _DescribedFeatureOverlayState();
 }
 
@@ -244,8 +243,8 @@ class _DescribedFeatureOverlayState extends State<DescribedFeatureOverlay>
       if (_bloc.activeFeatureId == widget.featureId &&
           _state == FeatureOverlayState.closed) _open();
     } on BlocNotFoundError catch (e) {
-      throw FlutterError(e.message +
-          '\nEnsure that all the DescribedFeatureOverlay widgets are below it.');
+      throw FlutterError(
+          '${e.message}\nEnsure that all the DescribedFeatureOverlay widgets are below it.');
     }
 
     super.didChangeDependencies();
@@ -340,7 +339,7 @@ class _DescribedFeatureOverlayState extends State<DescribedFeatureOverlay>
 
     if (widget.onOpen != null) {
       final shouldOpen = await widget.onOpen!();
-      if (!shouldOpen) {
+      if (!shouldOpen && context.mounted) {
         await FeatureDiscovery.completeCurrentStep(context);
         return;
       }
@@ -706,7 +705,6 @@ class _Background extends StatelessWidget {
   final Future<bool> Function()? onBackgroundTap;
 
   const _Background({
-    Key? key,
     required this.color,
     required this.state,
     required this.transitionProgress,
@@ -715,7 +713,7 @@ class _Background extends StatelessWidget {
     required this.tryDismissThisThenAll,
     required this.backgroundDismissible,
     required this.onBackgroundTap,
-  }) : super(key: key);
+  });
 
   double get opacity {
     switch (state) {
@@ -789,12 +787,11 @@ class _Pulse extends StatelessWidget {
   final Color color;
 
   const _Pulse({
-    Key? key,
     required this.state,
     required this.transitionProgress,
     required this.anchor,
     required this.color,
-  }) : super(key: key);
+  });
 
   double get radius {
     switch (state) {
@@ -855,14 +852,13 @@ class _TapTarget extends StatelessWidget {
   final VoidCallback onPressed;
 
   const _TapTarget({
-    Key? key,
     required this.anchor,
     required this.child,
     required this.onPressed,
     required this.color,
     required this.state,
     required this.transitionProgress,
-  }) : super(key: key);
+  });
 
   double get opacity {
     switch (state) {
@@ -906,7 +902,7 @@ class _TapTarget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CenterAbout(
         position: anchor,
-        child: Container(
+        child: SizedBox(
           height: 2 * radius,
           width: 2 * radius,
           child: Opacity(
@@ -914,8 +910,8 @@ class _TapTarget extends StatelessWidget {
             child: RawMaterialButton(
               fillColor: color,
               shape: const CircleBorder(),
-              child: child,
               onPressed: onPressed,
+              child: child,
             ),
           ),
         ),
